@@ -8,31 +8,33 @@ parentfolder <- (dirname(rstudioapi::getSourceEditorContext()$path))
 p1 <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Benedicte_Peak_Timings_Apex.csv")) 
 p2 <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Bertrand_Peak_Timings_Apex.csv")) 
 p3 <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Deborah_Peak_Timings_Apex.csv")) 
+p4 <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Menkam_Peak_Timings_Apex.csv"))
 
 p1$Participant <- "Benedicte"
 p2$Participant <- "Bertrand"
 p3$Participant <- "Deborah"
+p3$Participant <- "Menkam"
 
 
-df <- bind_rows(p1, p2, p3)
+df <- bind_rows(p1, p2, p3, p4)
 df <- df %>% rename(Manual_Apex = first)
 df <- df[, c("Participant", "time_ms", "x_index_right_S", "y_index_right_S", "speed", "gesture_t", "gesture_ID", "peak_speed", "timing_peak_speed", "Manual_Apex", "difference")]
 
-TS$Manual_Apex_Start <- annot$Begin.Time...msec
+df$Manual_Apex_Start <- annot$Begin.Time...msec
 
-mean_diff <- mean(TS$difference)
+mean_diff <- mean(df$difference)
 mean_diff
 
-lower <- mean_diff - 1.96*sd(TS$difference)
+lower <- mean_diff - 1.96*sd(df$difference)
 lower
 
-upper <- mean_diff + 1.96*sd(TS$difference)
+upper <- mean_diff + 1.96*sd(df$difference)
 upper
 
-TS$avg <- rowMeans(TS[, c("timing_peak_speed", "Manual_Apex_Start")])
+df$avg <- rowMeans(df[, c("timing_peak_speed", "Manual_Apex_Start")])
 
 
-plot <- ggplot(TS, aes(x = avg, y = difference)) +
+plot <- ggplot(df, aes(x = avg, y = difference)) +
   geom_point(size=1) +
   geom_hline(yintercept = mean_diff) +
   geom_hline(yintercept = lower, color = "red", linetype="dashed") +
@@ -167,27 +169,29 @@ colnames(P2M)[colnames(P2M) == "Begin.Time...msec"] <- "time_ms"
 
 ################################################
 
-P1C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Benedicte_Capex_To_Phone.csv"))
-P2C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Bertrand_Capex_To_Phone.csv"))
-P3C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Deborah_Capex_To_Phone.csv"))
-#P4 <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Menkam_Capex_To_Phone.csv"))
+P1C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Benedicte_Capex_To_Vowel.csv"))
+P2C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Bertrand_Capex_To_Vowel.csv"))
+P3C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Deborah_Capex_To_Vowel.csv"))
+P4C <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Menkam_Capex_To_Vowel.csv"))
 
 P1C$Participant <- "Participant 1"
 P2C$Participant <- "Participant 2"
 P3C$Participant <- "Participant 3"
-#P4$Participant <- "Participant 4"
+P4C$Participant <- "Participant 4"
 
-CAPEX_PHONE_ALL <- bind_rows(P1C, P2C, P3C)
+CAPEX_Vowel_ALL <- bind_rows(P1C, P2C, P3C, P4C)
 
-CAPEX_PHONE_ALL <- CAPEX_PHONE_ALL %>% filter(shift_phone != "sp")
-CAPEX_PHONE_ALL <- CAPEX_PHONE_ALL %>% filter(shift_phone != "NA")
+CAPEX_Vowel_ALL <- CAPEX_Vowel_ALL %>% filter(shift_phone != "sp")
+CAPEX_Vowel_ALL <- CAPEX_Vowel_ALL %>% filter(shift_phone != "NA")
 
-boxplot <- ggplot(CAPEX_PHONE_ALL, aes(x = Participant, y = difference)) + 
-  ggtitle("Computational Apex to Phone Comparison") +
+boxplot <- ggplot(CAPEX_Vowel_ALL, aes(x = Participant, y = difference)) + 
+  ggtitle("Computational Apex to Vowel Comparison") +
   geom_boxplot() + 
-  labs(y = "Time to Phone (msec)") + 
+  labs(y = "Time to Vowel (msec)") + 
   scale_y_continuous(breaks = seq(-500, 2000, 100))
 ggplotly(boxplot)
+
+write.csv(CAPEX_Vowel_ALL, paste0(data_processed, "CAPEX_TO_VOWEL_MERGED.csv"))
 
 # Calculate Q1 and Q3
 q1 <- quantile(CAPEX_PHONE_ALL$difference, probs = 0.25)

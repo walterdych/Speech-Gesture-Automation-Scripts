@@ -34,8 +34,8 @@ data_to_process <- paste0(dirname(parentfolder), "/DATA_TO_PROCESS/") #get the f
 data_processed <- paste0(dirname(parentfolder), "/DATA_PROCESSED/") #get the folder for final saving
 
 ##########LOAD IN FILES
-annot <-  read.csv(paste0(data_to_process, "Menkam_MT_STROKE.csv"))
-MT <-  read.csv(paste0(data_to_process, "Menkam_GS.csv"))
+annot <-  read.csv(paste0(data_to_process, "Benedicte_Stroke_TEXTGRID.csv"))
+MT <-  read.csv(paste0(data_to_process, "Benedicte_GS.csv"))
 
 ############################
 
@@ -55,5 +55,5 @@ MT$gesture_ID <- load.in.event(MT$time_ms, annot_new_ID) #now add the identifier
       subplot(ggplotly(Pspeed), ggplotly(Penv), nrows=2,titleY = TRUE)
 
 #SAVE THE FINAL PROCESSED DATASET
-write.csv(MT, paste0(data_processed, "Menkam_MT_STROKE.csv"))
+write.csv(MT, paste0(data_processed, "Benedicte_MT_STROKE.csv"))
 

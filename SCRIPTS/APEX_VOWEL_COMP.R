@@ -7,8 +7,8 @@ parentfolder <- (dirname(rstudioapi::getSourceEditorContext()$path))
 data_processed <- paste0(dirname(parentfolder), "/DATA_PROCESSED/")
 data_to_process <- paste0(dirname(parentfolder), "/DATA_TO_PROCESS/")
 
-TS <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Benedicte_MT_STROKE.csv")) #Calculated Apex for Stroke tier
-phone <- read.csv(paste0(dirname(parentfolder), "/DATA_TO_PROCESS/Benedicte_Phone.csv")) #ELAN phone textgrid
+TS <- read.csv(paste0(dirname(parentfolder), "/DATA_PROCESSED/Menkam_MT_STROKE.csv")) #Calculated Apex for Stroke tier
+phone <- read.csv(paste0(dirname(parentfolder), "/DATA_TO_PROCESS/Menkam_Phone.csv")) #ELAN phone textgrid
 
 TS$peak_speed <- ave(TS$speed, TS$gesture_ID, FUN = max)            #calculate the max speed
 TS$peak_speed[is.na(TS$gesture_ID)] <-NA                            #ignore NA events
@@ -36,6 +36,6 @@ merged_ax_phone <- merged_ax_phone %>% filter(timing_peak_speed != "NA")
 
 merged_ax_phone$difference <- (merged_ax_phone$shift_time - merged_ax_phone$timing_peak_speed)
 
-write.csv(merged_ax_phone, paste0(data_processed, "Benedicte_Capex_To_Phone.csv"))
+write.csv(merged_ax_phone, paste0(data_processed, "Menkam_Capex_To_Vowel.csv"))
 
 

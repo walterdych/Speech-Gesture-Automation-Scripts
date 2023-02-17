@@ -1,17 +1,7 @@
-library(rstudioapi)    #functions for time series functions (e.g., NA.approx)
+library(rstudioapi) 
 library(binhf)
 library(tidyverse)
 library(plotly)
-
-#author/questions?: Wim Pouw (wimpouw@gmail.com)
-
-#CITATION OF TUTORIAL: 
-#    Trujillo, J. P., & Pouw, W. (2019). Using video-based motion tracking to quantify speech-gesture synchrony.
-#    Proceedings of the 6th meeting of Gesture and Speech in Interaction. Paderborn, Germany.
-
-#CITATION OF CODE:
-#    Pouw, W., Trujillo, J. P. (2019). Tutorial Gespin2019 - Using video-based motion tracking to quantify speech-gesture 
-#     synchrony. doi: 10.17605/OSF.IO/RXB8J
 
 #FOLDER LOCATIONS
 parentfolder <- (dirname(rstudioapi::getSourceEditorContext()$path))  #what is the current folder

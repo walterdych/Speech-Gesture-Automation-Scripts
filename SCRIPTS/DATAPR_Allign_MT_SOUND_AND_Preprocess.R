@@ -34,8 +34,8 @@ parentfolder <- (dirname(rstudioapi::getSourceEditorContext()$path))  #what is t
 data_to_process <- paste0(dirname(parentfolder), "/DATA_TO_PROCESS/") #get the folder for MT and SOUND data
 
 #LOAD IN FILES
-MT <-  read.csv(paste0(data_to_process, "Menkam_MT.csv"))
-ENV <- read.csv(paste0(data_to_process, "Menkam_Audio_ENV.csv"))
+MT <-  read.csv(paste0(data_to_process, "Deborah_MT.csv"))
+ENV <- read.csv(paste0(data_to_process, "Deborah_ENV.csv"))
 
 
 
@@ -68,6 +68,6 @@ CompS <- ggplot(merged, aes(x = time_ms, y = speed)) + geom_line(color = "blue")
 subplot(ggplotly(CompUns), ggplotly(CompS), nrows=2,titleY = TRUE)
 
 #write to data_to_process for next steps
-write.csv(merged, paste0(data_to_process, "Menkam_GS.csv"))
+write.csv(merged, paste0(data_to_process, "Deborah_GS.csv"))
 
 
